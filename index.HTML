@@ -3,115 +3,206 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AL-AKSHA COMPUTER - Master Certificate Maker</title>
+    <title>AL-AKSHA COMPUTER - Premium Certificate Maker</title>
     <style>
+        /* Modern CSS Variables */
         :root {
             --cert-font: "Times New Roman", Times, serif;
             --cert-align: center;
+            --primary-color: #1e3c72;
+            --secondary-color: #2a5298;
+            --accent-color: #0d6efd;
+            --bg-color: #f4f7f6;
+            --card-bg: #ffffff;
+            --text-dark: #2b2b2b;
+            --border-color: #dce1e7;
         }
+        
         body {
-            font-family: Arial, sans-serif;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             margin: 0;
             padding: 0;
-            background-color: #f0f2f5;
+            background-color: var(--bg-color);
             display: flex;
             height: 100vh;
             overflow: hidden;
+            color: var(--text-dark);
         }
         
+        /* Premium Header */
         .main-header {
             position: fixed;
             top: 0;
             width: 100%;
-            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+            background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
             color: white;
             text-align: center;
-            padding: 15px 0;
-            font-size: 24px;
-            font-weight: bold;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            padding: 18px 0;
+            font-size: 26px;
+            font-weight: 800;
+            letter-spacing: 1.5px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.15);
             z-index: 100;
+            text-shadow: 1px 1px 3px rgba(0,0,0,0.3);
         }
         
         .container {
             display: flex;
             width: 100%;
-            margin-top: 60px;
-            height: calc(100vh - 60px);
+            margin-top: 65px;
+            height: calc(100vh - 65px);
         }
         
+        /* Left Side - Modern Form Controls */
         .form-section {
-            width: 35%;
-            padding: 20px;
-            background: white;
+            width: 36%;
+            padding: 25px;
+            background: var(--card-bg);
             overflow-y: auto;
-            border-right: 2px solid #ccc;
-            box-shadow: 2px 0 10px rgba(0,0,0,0.05);
+            border-right: 1px solid var(--border-color);
+            box-shadow: 5px 0 15px rgba(0,0,0,0.03);
             box-sizing: border-box;
         }
-        .form-section h3 { color: #333; border-bottom: 2px solid #2a5298; padding-bottom: 10px; margin-top: 0; }
+        
+        /* Custom Sleek Scrollbar */
+        .form-section::-webkit-scrollbar { width: 8px; }
+        .form-section::-webkit-scrollbar-track { background: #f1f1f1; border-radius: 4px;}
+        .form-section::-webkit-scrollbar-thumb { background: #c1c1c1; border-radius: 4px; }
+        .form-section::-webkit-scrollbar-thumb:hover { background: #a8a8a8; }
+
+        .form-section h3 { 
+            color: var(--primary-color); 
+            border-bottom: 2px solid var(--accent-color); 
+            padding-bottom: 12px; 
+            margin-top: 0;
+            font-size: 20px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
         
         .settings-box {
-            background: #e9f2ff; padding: 15px; border-radius: 8px; margin-bottom: 15px; border: 1px solid #b6d4fe;
+            background: #f8fbff;
+            padding: 18px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            border: 1px solid #cce3ff;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.02);
+        }
+        
+        .settings-box h4 {
+            margin-top: 0; color: #084298; margin-bottom: 15px; font-size: 16px; display: flex; align-items: center; gap: 8px;
         }
 
         .form-row {
             display: flex; justify-content: space-between; align-items: flex-start;
-            margin-bottom: 12px; background: #f9f9f9; padding: 8px; border-radius: 4px; border: 1px solid #eee;
-        }
-        .field-group { width: 75%; }
-        .size-group { width: 22%; }
-        
-        .form-row label { display: block; font-size: 12px; font-weight: bold; margin-bottom: 5px; color: #555; }
-        
-        textarea {
-            width: 100%; padding: 8px; border: 1px solid #ccc; border-radius: 4px; font-size: 14px; box-sizing: border-box;
-            resize: vertical; min-height: 40px; font-family: inherit;
-        }
-        input[type="number"], select {
-            width: 100%; padding: 8px; border: 1px solid #ccc; border-radius: 4px; font-size: 14px; box-sizing: border-box;
+            margin-bottom: 15px; background: #ffffff; padding: 12px; 
+            border-radius: 8px; border: 1px solid var(--border-color);
+            box-shadow: 0 2px 4px rgba(0,0,0,0.02);
+            transition: transform 0.2s, box-shadow 0.2s;
         }
         
-        .print-btn {
-            width: 100%; padding: 15px; background-color: #28a745; color: white; border: none;
-            border-radius: 5px; font-size: 18px; font-weight: bold; cursor: pointer; margin-top: 15px; margin-bottom: 40px;
+        .form-row:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+            border-color: #b3d4ff;
         }
-        .print-btn:hover { background-color: #218838; }
 
+        .field-group { width: 72%; }
+        .size-group { width: 24%; }
+        
+        .form-row label, .settings-box label { 
+            display: block; font-size: 13px; font-weight: 600; margin-bottom: 6px; color: #4a5568; 
+        }
+        
+        /* Premium Inputs with Glow Focus */
+        textarea, input[type="number"], select {
+            width: 100%; padding: 10px 12px; border: 1px solid #cbd5e1; border-radius: 6px; 
+            font-size: 14px; box-sizing: border-box; transition: all 0.3s ease;
+            background-color: #fcfcfc; color: #333; font-family: inherit;
+        }
+        
+        textarea { resize: vertical; min-height: 45px; line-height: 1.4; }
+        
+        textarea:focus, input[type="number"]:focus, select:focus {
+            outline: none;
+            border-color: var(--accent-color);
+            background-color: #fff;
+            box-shadow: 0 0 0 3px rgba(13, 110, 253, 0.15);
+        }
+        
+        /* 3D Print Button */
+        .print-btn {
+            width: 100%; padding: 16px; 
+            background: linear-gradient(135deg, #11998e 0%, #38ef7d 100%); 
+            color: white; border: none; border-radius: 8px; 
+            font-size: 18px; font-weight: bold; cursor: pointer; 
+            margin-top: 20px; margin-bottom: 40px;
+            box-shadow: 0 4px 15px rgba(56, 239, 125, 0.4);
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            display: flex; justify-content: center; align-items: center; gap: 10px;
+        }
+        
+        .print-btn:hover { 
+            transform: translateY(-3px);
+            box-shadow: 0 6px 20px rgba(56, 239, 125, 0.6);
+        }
+        .print-btn:active { transform: translateY(1px); }
+
+        /* Right Side - Fixed A4 Frame Environment */
         .preview-section {
-            width: 65%; padding: 20px; background: #d3d3d3; overflow-y: auto;
+            width: 64%; padding: 30px; background: #e2e8f0; overflow-y: auto;
             display: flex; justify-content: center; align-items: flex-start;
         }
         
+        /* Exact A4 Standard */
         .certificate-frame {
-            width: 210mm; height: 297mm; background-color: white; box-shadow: 0 0 20px rgba(0,0,0,0.3);
+            width: 210mm; height: 297mm; background-color: white; 
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
             position: relative; box-sizing: border-box;
+            border-radius: 2px; /* Very slight rounding for screen only */
         }
 
         /* Permanent Background Image */
         #bg-image {
-            position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 0; object-fit: fill;
+            position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 0; object-fit: fill; border-radius: inherit;
         }
         
+        /* Draggable UI Enhancements */
         .draggable-text {
             position: absolute; z-index: 10; cursor: move;
             font-family: var(--cert-font); text-align: var(--cert-align); color: #000; font-weight: bold;
             padding: 2px; box-sizing: border-box; white-space: pre-wrap; word-wrap: break-word;
-            resize: both; overflow: hidden; min-width: 50px; min-height: 25px; border: 1px dashed transparent;
+            resize: both; overflow: hidden; min-width: 50px; min-height: 25px; 
+            border: 1px dashed transparent; border-radius: 4px;
+            transition: border 0.2s, background-color 0.2s;
         }
         
         .draggable-text:hover, .draggable-text:active {
-            border: 1px dashed #007bff; background-color: rgba(0, 123, 255, 0.1);
+            border: 1px dashed #0d6efd; background-color: rgba(13, 110, 253, 0.08);
+            box-shadow: 0 0 5px rgba(13, 110, 253, 0.2);
         }
         
+        /* Info Alert Box */
+        .info-alert {
+            background: #fff3cd; border-left: 5px solid #ffc107; padding: 12px 15px; 
+            border-radius: 6px; margin-bottom: 20px; font-size: 13px; color: #664d03; line-height: 1.5;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.02);
+        }
+
+        /* =========================================
+           STRICT PRINT CSS (No Changes Here)
+           ========================================= */
         @media print {
             body * { visibility: hidden; }
             #certificate-frame, #certificate-frame * { visibility: visible; }
             #certificate-frame {
                 position: absolute; left: 0; top: 0; width: 210mm !important; height: 297mm !important;
-                margin: 0 !important; padding: 0 !important; border: none !important; box-shadow: none !important;
+                margin: 0 !important; padding: 0 !important; border: none !important; box-shadow: none !important; border-radius: 0 !important;
             }
-            .draggable-text { border: none !important; resize: none !important; background: transparent !important; }
+            .draggable-text { border: none !important; resize: none !important; background: transparent !important; box-shadow: none !important;}
             @page { size: A4; margin: 0; }
         }
     </style>
@@ -126,9 +217,9 @@
         <div class="form-section no-print">
             
             <div class="settings-box">
-                <h4>⚙️ 1. Global Text Settings</h4>
-                <div style="margin-bottom: 10px;">
-                    <label style="font-size: 12px; font-weight: bold;">Font Style (Certificate Fonts):</label>
+                <h4>⚙️ Global Text Settings</h4>
+                <div style="margin-bottom: 15px;">
+                    <label>Font Style (Certificate Fonts):</label>
                     <select onchange="updateDesign('--cert-font', this.value)">
                         <option value="'Times New Roman', Times, serif">Times New Roman (Standard)</option>
                         <option value="Arial, sans-serif">Arial</option>
@@ -139,7 +230,7 @@
                     </select>
                 </div>
                 <div>
-                    <label style="font-size: 12px; font-weight: bold;">Text Alignment:</label>
+                    <label>Text Alignment:</label>
                     <select onchange="updateDesign('--cert-align', this.value)">
                         <option value="center">Center (Vacche thi)</option>
                         <option value="left">Left (Dabi baju thi)</option>
@@ -148,11 +239,11 @@
                 </div>
             </div>
 
-            <div style="background: #e2f3f5; padding: 10px; border-radius: 8px; margin-bottom: 15px; font-size: 12px; border: 1px solid #b8daff; color: #004085;">
-                💡 <b>Tip:</b> Navi line mate <b>Shift + Enter</b> dabavo. Darek box ni same teni <b>Size</b> nani/moti karvano option chhe. Image have permanently set thai gayu chhe.
+            <div class="info-alert">
+                💡 <b>Pro Tip:</b> Navi line mate <b>Shift + Enter</b> dabavo. Darek box ni same teni <b>Size</b> nani/moti karvano option chhe. Format image automatically code ma set thai gayu chhe.
             </div>
 
-            <h3>2. Fill Details & Individual Size</h3>
+            <h3>📝 Fill Details & Adjust Size</h3>
             
             <script>
                 const fields = [
@@ -179,7 +270,7 @@
                         <div class="form-row">
                             <div class="field-group">
                                 <label>${f.label}</label>
-                                <textarea id="in_${f.id}" oninput="updateText('${f.id}', this.value)" placeholder="Type here..."></textarea>
+                                <textarea id="in_${f.id}" oninput="updateText('${f.id}', this.value)" placeholder="Enter details here..."></textarea>
                             </div>
                             <div class="size-group">
                                 <label>Size</label>
@@ -190,7 +281,10 @@
                 });
             </script>
 
-            <button class="print-btn" onclick="window.print()">🖨️ PRINT CERTIFICATE</button>
+            <button class="print-btn" onclick="window.print()">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 6 2 18 2 18 9"></polyline><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"></path><rect x="6" y="14" width="12" height="8"></rect></svg>
+                Print Certificate
+            </button>
         </div>
 
         <div class="preview-section">

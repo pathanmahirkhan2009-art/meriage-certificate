@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html lang="gu">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AL-AKSHA COMPUTER - Master Certificate Maker</title>
+    <style>
+        :root {
+            --cert-font: "Times New Roman", Times, serif;
+            --cert-align: center;
+        }
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f0f2f5;
+            display: flex;
+            height: 100vh;
+            overflow: hidden;
+        }
+        
+        .main-header {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+            color: white;
+            text-align: center;
+            padding: 15px 0;
+            font-size: 24px;
+            font-weight: bold;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            z-index: 100;
+        }
+        
+        .container {
+            display: flex;
+            width: 100%;
+            margin-top: 60px;
+            height: calc(100vh - 60px);
+        }
+        
+        .form-section {
+            width: 35%;
+            padding: 20px;
+            background: white;
+            overflow-y: auto;
+            border-right: 2px solid #ccc;
+            box-shadow: 2px 0 10px rgba(0,0,0,0.05);
+            box-sizing: border-box;
+        }
+        .form-section h3 { color: #333; border-bottom: 2px solid #2a5298; padding-bottom: 10px; margin-top: 0; }
+        
+        .settings-box {
+            background: #e9f2ff; padding: 15px; border-radius: 8px; margin-bottom: 15px; border: 1px solid #b6d4fe;
+        }
+
+        .form-row {
+            display: flex; justify-content: space-between; align-items: flex-start;
+            margin-bottom: 12px; background: #f9f9f9; padding: 8px; border-radius: 4px; border: 1px solid #eee;
+        }
+        .field-group { width: 75%; }
+        .size-group { width: 22%; }
+        
+        .form-row label { display: block; font-size: 12px; font-weight: bold; margin-bottom: 5px; color: #555; }
+        
+        textarea {
+            width: 100%; padding: 8px; border: 1px solid #ccc; border-radius: 4px; font-size: 14px; box-sizing: border-box;
+            resize: vertical; min-height: 40px; font-family: inherit;
+        }
+        input[type="number"], select {
+            width: 100%; padding: 8px; border: 1px solid #ccc; border-radius: 4px; font-size: 14px; box-sizing: border-box;
+        }
+        
+        .print-btn {
+            width: 100%; padding: 15px; background-color: #28a745; color: white; border: none;
+            border-radius: 5px; font-size: 18px; font-weight: bold; cursor: pointer; margin-top: 15px; margin-bottom: 40px;
+        }
+        .print-btn:hover { background-color: #218838; }
+
+        .preview-section {
+            width: 65%; padding: 20px; background: #d3d3d3; overflow-y: auto;
+            display: flex; justify-content: center; align-items: flex-start;
+        }
+        
+        .certificate-frame {
+            width: 210mm; height: 297mm; background-color: white; box-shadow: 0 0 20px rgba(0,0,0,0.3);
+            position: relative; box-sizing: border-box;
+        }
+
+        /* Permanent Background Image */
+        #bg-image {
+            position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 0; object-fit: fill;
+        }
+        
+        .draggable-text {
+            position: absolute; z-index: 10; cursor: move;
+            font-family: var(--cert-font); text-align: var(--cert-align); color: #000; font-weight: bold;
+            padding: 2px; box-sizing: border-box; white-space: pre-wrap; word-wrap: break-word;
+            resize: both; overflow: hidden; min-width: 50px; min-height: 25px; border: 1px dashed transparent;
+        }
+        
+        .draggable-text:hover, .draggable-text:active {
+            border: 1px dashed #007bff; background-color: rgba(0, 123, 255, 0.1);
+        }
+        
+        @media print {
+            body * { visibility: hidden; }
+            #certificate-frame, #certificate-frame * { visibility: visible; }
+            #certificate-frame {
+                position: absolute; left: 0; top: 0; width: 210mm !important; height: 297mm !important;
+                margin: 0 !important; padding: 0 !important; border: none !important; box-shadow: none !important;
+            }
+            .draggable-text { border: none !important; resize: none !important; background: transparent !important; }
+            @page { size: A4; margin: 0; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="main-header no-print">
+        AL-AKSHA COMPUTER , AI TOOLS
+    </div>
+
+    <div class="container">
+        <div class="form-section no-print">
+            
+            <div class="settings-box">
+                <h4>⚙️ 1. Global Text Settings</h4>
+                <div style="margin-bottom: 10px;">
+                    <label style="font-size: 12px; font-weight: bold;">Font Style (Certificate Fonts):</label>
+                    <select onchange="updateDesign('--cert-font', this.value)">
+                        <option value="'Times New Roman', Times, serif">Times New Roman (Standard)</option>
+                        <option value="Arial, sans-serif">Arial</option>
+                        <option value="'Georgia', serif">Georgia (Royal)</option>
+                        <option value="'Garamond', serif">Garamond (Professional)</option>
+                        <option value="'Monotype Corsiva', 'Brush Script MT', cursive">Cursive / Signature Font</option>
+                        <option value="'Courier New', Courier, monospace">Typewriter / Courier</option>
+                    </select>
+                </div>
+                <div>
+                    <label style="font-size: 12px; font-weight: bold;">Text Alignment:</label>
+                    <select onchange="updateDesign('--cert-align', this.value)">
+                        <option value="center">Center (Vacche thi)</option>
+                        <option value="left">Left (Dabi baju thi)</option>
+                        <option value="right">Right (Jamni baju thi)</option>
+                    </select>
+                </div>
+            </div>
+
+            <div style="background: #e2f3f5; padding: 10px; border-radius: 8px; margin-bottom: 15px; font-size: 12px; border: 1px solid #b8daff; color: #004085;">
+                💡 <b>Tip:</b> Navi line mate <b>Shift + Enter</b> dabavo. Darek box ni same teni <b>Size</b> nani/moti karvano option chhe. Image have permanently set thai gayu chhe.
+            </div>
+
+            <h3>2. Fill Details & Individual Size</h3>
+            
+            <script>
+                const fields = [
+                    { id: 'cert_no', label: 'Certificate No.' },
+                    { id: 'h_name', label: 'Husband Name (Shri)' },
+                    { id: 'h_father', label: 'Husband Father (Son of)' },
+                    { id: 'h_address', label: 'Husband Address' },
+                    { id: 'w_name', label: 'Wife Name (and)' },
+                    { id: 'w_father', label: 'Wife Father (daughter of)' },
+                    { id: 'w_address', label: 'Wife Address' },
+                    { id: 'm_date', label: 'Marriage Date' },
+                    { id: 'm_place', label: 'Marriage Place' },
+                    { id: 'r_day', label: 'Registered Day (15th)' },
+                    { id: 'r_month', label: 'Registered Month (August)' },
+                    { id: 'r_year', label: 'Registered Year (20__)' },
+                    { id: 'serial', label: 'Serial No.' },
+                    { id: 'volume', label: 'Volume' },
+                    { id: 'place_bottom', label: 'Place (Bottom)' },
+                    { id: 'date_bottom', label: 'Date (Bottom)' }
+                ];
+
+                fields.forEach(f => {
+                    document.write(`
+                        <div class="form-row">
+                            <div class="field-group">
+                                <label>${f.label}</label>
+                                <textarea id="in_${f.id}" oninput="updateText('${f.id}', this.value)" placeholder="Type here..."></textarea>
+                            </div>
+                            <div class="size-group">
+                                <label>Size</label>
+                                <input type="number" value="18" oninput="updateIndSize('${f.id}', this.value)">
+                            </div>
+                        </div>
+                    `);
+                });
+            </script>
+
+            <button class="print-btn" onclick="window.print()">🖨️ PRINT CERTIFICATE</button>
+        </div>
+
+        <div class="preview-section">
+            <div class="certificate-frame" id="certificate-frame">
+                
+                <img id="bg-image" src="format.jpg" alt="Certificate Format">
+
+                <div class="draggable-text" id="cert_no" style="left: 150px; top: 385px; width: 150px; font-size: 18px;">Cert_No</div>
+                
+                <div class="draggable-text" id="h_name" style="left: 360px; top: 442px; width: 300px; font-size: 18px;">Husband_Name</div>
+                <div class="draggable-text" id="h_father" style="left: 210px; top: 482px; width: 450px; font-size: 18px;">Husband_Father</div>
+                <div class="draggable-text" id="h_address" style="left: 160px; top: 522px; width: 350px; font-size: 18px;">Husband_Address</div>
+                
+                <div class="draggable-text" id="w_name" style="left: 550px; top: 522px; width: 200px; font-size: 18px;">Wife_Name</div>
+                <div class="draggable-text" id="w_father" style="left: 230px; top: 562px; width: 450px; font-size: 18px;">Wife_Father</div>
+                <div class="draggable-text" id="w_address" style="left: 100px; top: 602px; width: 350px; font-size: 18px;">Wife_Address</div>
+                
+                <div class="draggable-text" id="m_date" style="left: 560px; top: 642px; width: 150px; font-size: 18px;">M_Date</div>
+                <div class="draggable-text" id="m_place" style="left: 730px; top: 642px; width: 150px; font-size: 18px;">M_Place</div>
+                
+                <div class="draggable-text" id="r_day" style="left: 550px; top: 682px; width: 80px; font-size: 18px;">Day</div>
+                <div class="draggable-text" id="r_month" style="left: 700px; top: 682px; width: 120px; font-size: 18px;">Month</div>
+                <div class="draggable-text" id="r_year" style="left: 90px; top: 722px; width: 100px; font-size: 18px;">Year</div>
+                
+                <div class="draggable-text" id="serial" style="left: 230px; top: 722px; width: 150px; font-size: 18px;">Serial_No</div>
+                <div class="draggable-text" id="volume" style="left: 450px; top: 722px; width: 150px; font-size: 18px;">Volume</div>
+                
+                <div class="draggable-text" id="place_bottom" style="left: 150px; top: 920px; width: 150px; font-size: 18px;">Place</div>
+                <div class="draggable-text" id="date_bottom" style="left: 150px; top: 960px; width: 150px; font-size: 18px;">Date</div>
+
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function updateText(id, value) {
+            document.getElementById(id).innerText = value ? value : id;
+        }
+
+        function updateIndSize(id, size) {
+            document.getElementById(id).style.fontSize = size + 'px';
+        }
+
+        function updateDesign(variable, value) {
+            document.documentElement.style.setProperty(variable, value);
+        }
+
+        function makeDraggable(element) {
+            var currentX, currentY, initialX, initialY;
+            var active = false;
+
+            var savedLeft = localStorage.getItem(element.id + '_left');
+            var savedTop = localStorage.getItem(element.id + '_top');
+            var savedWidth = localStorage.getItem(element.id + '_width');
+            var savedHeight = localStorage.getItem(element.id + '_height');
+            
+            if (savedLeft) element.style.left = savedLeft;
+            if (savedTop) element.style.top = savedTop;
+            if (savedWidth) element.style.width = savedWidth;
+            if (savedHeight) element.style.height = savedHeight;
+
+            element.addEventListener('mousedown', dragStart, false);
+            document.addEventListener('mouseup', dragEnd, false);
+            document.addEventListener('mousemove', drag, false);
+
+            function dragStart(e) {
+                var rect = element.getBoundingClientRect();
+                var isResizing = (e.clientX > rect.right - 15) && (e.clientY > rect.bottom - 15);
+                if (isResizing) return; 
+
+                active = true;
+                initialX = e.clientX - element.offsetLeft;
+                initialY = e.clientY - element.offsetTop;
+            }
+
+            function dragEnd() {
+                if (active) {
+                    active = false;
+                    localStorage.setItem(element.id + '_left', element.style.left);
+                    localStorage.setItem(element.id + '_top', element.style.top);
+                }
+                localStorage.setItem(element.id + '_width', element.style.width);
+                localStorage.setItem(element.id + '_height', element.style.height);
+            }
+
+            function drag(e) {
+                if (active) {
+                    e.preventDefault();
+                    currentX = e.clientX - initialX;
+                    currentY = e.clientY - initialY;
+                    
+                    element.style.left = currentX + 'px';
+                    element.style.top = currentY + 'px';
+                }
+            }
+        }
+
+        var draggableElements = document.getElementsByClassName('draggable-text');
+        for (var i = 0; i < draggableElements.length; i++) {
+            makeDraggable(draggableElements[i]);
+        }
+    </script>
+</body>
+</html>
